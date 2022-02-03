@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
+const courseRoutes = require('./routes/courseRoutes');
 const app = express();
 // process.env.PORT for when it is deployed.
 const port = process.env.PORT || 4000;
@@ -21,4 +22,5 @@ db.on('error', console.error.bind(console, "Connection Error"));
 db.once('open', () => console.log('Successfully connected to MongoDB'));
 
 app.use('/users', userRoutes);
+app.use('/courses', courseRoutes);
 app.listen(port, () => console.log(`Successfully connected to port ${port}`));
