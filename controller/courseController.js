@@ -1,11 +1,11 @@
 const Course = require('../models/Course');
 
-module.exports.addCourse = (reqBody, isAdmin) => {
-	if(isAdmin) {
+module.exports.addCourse = async (data) => {
+	if(data.isAdmin) {
 		let newCourse = new Course({
-			name: reqBody.name,
-			description: reqBody.description,
-			price: reqBody.price,
+			name: data.course.name,
+			description: data.course.description,
+			price: data.course.price,
 		});
 
 		return newCourse.save().then((user, err) => {
@@ -17,5 +17,76 @@ module.exports.addCourse = (reqBody, isAdmin) => {
 			}
 		})
 	}
-	return Promise.resolve('Not an Admin');
-};
+	else {
+		return 'Not an Admin';
+	}
+}
+
+// If the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise.
+module.exports.getAllCourses = async (user) => {
+	if(user.isAdmin === true) {
+		return Course.find({}).then(result => {
+			return result;
+		});
+	}
+	else {
+		return `${user.email} is not authorized`;
+	}
+}
+
+module.exports.getAllActiveCourses = () => {
+	return Course.find({isActive: true}).then(result => {
+		return result;
+	})
+}
+
+// Retrieve a specific course
+module.exports.getCourse = (courseId) => {
+	return Course.findById(courseId).then(result => {
+		return result;
+	})
+}
+
+module.exports.updateCourse = async (data) => {
+	console.log(data);
+	if(data.payload.isAdmin === true) {
+		return Course.findById(data.courseId).then((result, err) => {
+				result.name = data.updatedCourse.name;
+				result.description = data.updatedCourse.description;
+				result.price = data.updatedCourse.price;
+			
+				return result.save().then((updateedCourse, err) => {
+					if(err) {
+						return false;
+					}
+					else {
+						return result;
+					}
+				})
+		})
+	}
+	else {
+		return false;
+	}
+}
+
+module.exports.archiveCourse = async (data) => {
+	console.log(data);
+	if(data.payload.isAdmin === true) {
+		return Course.findById(data.courseId).then((result, err) => {
+			result.isActive = false;
+
+			return result.save().then((archivedCourse, err) => {
+				if(err) {
+					return false;
+				}
+				else {
+					return result;
+				}
+			})
+		})
+	}
+	else {
+		return 'Unauthorized user';
+	}
+}

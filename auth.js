@@ -4,6 +4,8 @@ const secret = 'CourseBookingAPI';
 // Token Creation
 module.exports.createAccessToken = (user) => {
 
+	// This will be the payload. Make sure it doesn't include the passwords.
+	// This should be concise so it doesn't consume a lot of bandwidth.
 	const data = {
 		id: user._id,
 		email: user.email,
@@ -25,7 +27,7 @@ module.exports.verify = (req, res, next) => {
 				return res.send({auth: "failed"});
 			}
 			else {
-				next(); // 
+				next();
 			}
 		})
 	}

@@ -11,7 +11,7 @@ module.exports.checkEmailExists = (reqBody) => {
 			return false;
 		}
 	})
-};
+}
 
 module.exports.registerUser = (reqBody) => {
 
@@ -20,7 +20,8 @@ module.exports.registerUser = (reqBody) => {
 		lastName: reqBody.lastName,
 		email: reqBody.email,
 		mobileNo: reqBody.mobileNo,
-		password: bcrypt.hashSync(reqBody.password, 10)
+		password: bcrypt.hashSync(reqBody.password, 10),
+		isAdmin: reqBody.isAdmin
 	});
 
 	return newUser.save().then((user, err) => {
@@ -32,7 +33,7 @@ module.exports.registerUser = (reqBody) => {
 			return user;
 		}
 	})
-};
+}
 
 module.exports.loginUser = (reqBody) => {
 
@@ -47,7 +48,7 @@ module.exports.loginUser = (reqBody) => {
 			}
 		}
 	})
-};
+}
 
 
 module.exports.getProfile = (data) => {
@@ -56,4 +57,4 @@ module.exports.getProfile = (data) => {
 		result.password = "";
 		return result;
 	});
-};
+}

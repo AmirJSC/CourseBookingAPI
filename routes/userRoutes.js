@@ -17,7 +17,7 @@ router.post('/login', (req, res) => {
 });
 
 // auth.verify is a middleware. Ensures user is logged in.
-router.post("/details", auth.verify,  (req, res) => {
+router.get("/details", auth.verify,  (req, res) => {
 	const userData = auth.decode(req.headers.authorization);
 	userController.getProfile({userId : userData.id}).then(resultFromController => res.send(resultFromController));
 });
