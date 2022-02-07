@@ -1,7 +1,7 @@
 const Course = require('../models/Course');
 
 module.exports.addCourse = async (data) => {
-	if(data.isAdmin) {
+	if(data.isAdmin === true) {
 		let newCourse = new Course({
 			name: data.course.name,
 			description: data.course.description,
@@ -55,7 +55,7 @@ module.exports.updateCourse = async (data) => {
 				result.description = data.updatedCourse.description;
 				result.price = data.updatedCourse.price;
 			
-				return result.save().then((updateedCourse, err) => {
+				return result.save().then((updatedCourse, err) => {
 					if(err) {
 						return false;
 					}

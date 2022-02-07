@@ -1,18 +1,25 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
-const courseRoutes = require('./routes/courseRoutes');
-const app = express();
-// process.env.PORT for when it is deployed.
-const port = process.env.PORT || 4000;
+// [SECTION] Dependencies and Modules
+	const express = require('express');
+	const mongoose = require('mongoose');
+	const cors = require('cors');
+	const dotenv = require('dotenv')
+	const userRoutes = require('./routes/userRoutes');
+	const courseRoutes = require('./routes/courseRoutes');
 
-// Middlewares
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(cors());
+// [SECTION] Environment variables setup
+	// Store credentials to .env
+	dotenv.config();
+	const mongoDBConnectionString = process.env.MONGODB_CONNECTION_STRING;
 
-mongoose.connect("mongodb+srv://AmirCastaneda:admindb@b145-zuitt-cluster.mjhg7.mongodb.net/course-booking?retryWrites=true&w=majority", {
+// [SECTION] Server setup
+	const app = express();
+	const port = process.env.PORT;
+	// Middlewares - executed after the server receives the request and before the server sends the response. 
+	app.use(express.json());
+	app.use(express.urlencoded({extended: true})); 
+	app.use(cors());
+
+mongoose.connect(mongoDBConnectionString, {
 	useUnifiedTopology: true,
 	useNewUrlParser: true
 });
