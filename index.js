@@ -13,7 +13,7 @@
 
 // [SECTION] Server setup
 	const app = express();
-	const port = process.env.PORT;
+	const port = process.env.PORT || 3000;
 	// Middlewares - executed after the server receives the request and before the server sends the response. 
 	app.use(express.json());
 	app.use(express.urlencoded({extended: true})); 
