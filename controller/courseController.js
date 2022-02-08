@@ -71,7 +71,6 @@ module.exports.updateCourse = async (data) => {
 }
 
 module.exports.archiveCourse = async (data) => {
-	console.log(data);
 	if(data.payload.isAdmin === true) {
 		return Course.findById(data.courseId).then((result, err) => {
 			result.isActive = false;
