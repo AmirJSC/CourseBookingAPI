@@ -47,6 +47,9 @@ module.exports.loginUser = (reqBody) => {
 			if(isPasswordCorrect) {
 				return {access: auth.createAccessToken(result)};
 			}
+			else {
+				return false;
+			}
 		}
 	})
 }
